@@ -10,15 +10,24 @@ module.exports = (passport) => {
         clientID: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env['GOOGLE_CLIENT_SECRET'],
         callbackURL: '/auth/google/callback'
-      },
-      async function(accessToken, refreshToken, profile, done) {
+    },
+    async function(accessToken, refreshToken, profile, done) {
         // User.findOrCreate({ googleId: profile.id }, function (err, user) {
         //   return cb(err, user);
         // });
         
         console.log(profile);
-      }
-    
-      ));
+    }));
+
+    passport.serializeUser((user, done) => {done(null, user.id);
+        
+    }); 
+    passport.deserializeUser((id, done)=> {
+        // User.findById(id, (err, user)=> {
+        // done(err, user);
+        // });
+    });
+
+
     
 }      

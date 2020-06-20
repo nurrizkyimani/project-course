@@ -4,7 +4,7 @@ const dotenv = require('dotenv')
 const mongoDB = require('mongodb')
 const connectDatabase = require('./mongodb')
 const morgan = require('morgan')
-const PORT = process.env.PORT || 6000
+
 const passport = require('passport')
 const session = require('express-session')
 
@@ -33,14 +33,8 @@ app.use(session({
 
 app.use(passport.initialize())
 app.use(passport.session())
+app.use('/auth', require('./routes/auth'))
+// app.use('/auth', require('./routes/auth'))
 
-app.get('/auth/google/callback', 
-  passport.authenticate('google', { failureRedirect: '/login' }),
-  function(req, res) {
-    // Successful authentication, redirect home.
-    res.redirect('/');
-  });
-
-
-
+const PORT = process.env.PORT || 6000
 app.listen(PORT, console.log(`PORT LISTEN TO ${process.env.NODE_ENV} mode on port ${PORT}`))
