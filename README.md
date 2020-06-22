@@ -1,2 +1,8 @@
-# project-course
-A web to rate course
+# A web to rate UGM course 
+
+# Stack
+- > express
+- > passport.js
+- > mongodb
+- > mongoose
+
