@@ -15,9 +15,8 @@ const StudentSchema = new mongoose.Schema({
     },
     image: {
         type:String,
-        
     },
-    createdTime: {
+    createdAt: {
         type:String,
         default: Date.now
     }

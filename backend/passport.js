@@ -12,21 +12,36 @@ module.exports = (passport) => {
         callbackURL: '/auth/google/callback'
     },
     async function(accessToken, refreshToken, profile, done) {
-        // User.findOrCreate({ googleId: profile.id }, function (err, user) {
-        //   return cb(err, user);
-        // });
+        const newStudent = {
+            googleId: profile.id,
+            displayName: profile.displayName,
+            firstName: profile.name.givenName,
+            lastName: profile.name.familyName,
+            image: profile.photos[0].value,
+        }
         
-        console.log(profile);
+        try {
+            student = await Student.findOne({googleId: profile.id})
+            if(student){
+                done(null,student)
+            } else {
+                student = await Student.create({newStudent})
+                done(null, student)
+            }
+            done(null, student)
+        } catch (error) {
+            console.log(error);
+            done(error)
+        }
     }));
 
-    passport.serializeUser((user, done) => {done(null, user.id);
-        
-    }); 
-    passport.deserializeUser((id, done)=> {
-        // User.findById(id, (err, user)=> {
-        // done(err, user);
-        // });
-    });
+    passport.serializeUser((user, done) => {
+        done(null, user.id)
+    })
+    
+    passport.deserializeUser((id, done) => {
+        User.findById(id, (err, user) => done(err, user))
+    })
 
 
     

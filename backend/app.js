@@ -2,19 +2,15 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const dotenv = require('dotenv')
-const mongoDB = require('mongodb')
 const connectDatabase = require('./mongodb')
 const morgan = require('morgan')
 const passport = require('passport')
 const session = require('express-session')
-const { Mongoose } = require('mongoose')
-const { urlencoded } = require('express')
 const MongoStore = require('connect-mongo')(session)
 dotenv.config({path: './config/config.env'})
 
 //passport config
 require('./passport')(passport)
-
 //database init
 connectDatabase()
 
@@ -31,7 +27,7 @@ app.use(express.json())
 
 //Sessions;
 app.use(session({
-    secret: 'keyboard cat',
+    secret: 'tes2',
     resave: false,
     saveUninitialized: false,
     store: new MongoStore({
@@ -42,6 +38,7 @@ app.use(session({
 //Passport js middleware
 app.use(passport.initialize())
 app.use(passport.session())
+
 
 // ROUTE
 app.use('/', require('./routes/index'))

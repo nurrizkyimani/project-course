@@ -4,26 +4,96 @@ const {ensureAuth} = require('../middleware/auth')
 
 const Review = require('../models/Review')
 const Student = require('../models/Student')
+const { route } = require('.')
+const { remove } = require('../models/Review')
 
 
-router.get('/add', ensureAuth,  async (req, res)=> {
-   res.send('it should be an template')
-   
-})
-
+// SUBMIT REVIEW
 router.post('/submit', ensureAuth,  async (req, res)=> {
     try {
         req.body.student = req.student.id
         await Student.create(req.body)
-        res.send('all set done;')
+        res.send({data : req.body})
     } catch (error) {
         res.send(error)
     }
  })
 
+// UPDATE REVIEW
 router.put('/:id', ensureAuth, async (req, res) => {
     let review = await Review.findById(req.params.id).lean()
-    res.send('update rest')
+    
+    try {
+        if(req.student.id != review.user ){
+            res.send('not the same id')
+        } else {
+            review = await Review.findByIdAndUpdate({_id : req.params.id}, req.body, {
+            new:true,
+            runValidators:true
+            })
+        }
+            
+    } catch (error) {
+        res.send(error)
+    }
+
+
 })
- 
+
+//delete the review
+router.delete('/:id', ensureAuth, async(req, res)=> {
+    try {
+        let review = await Review.findById(req.params.id)
+        if(!review){
+            res.render('error', { error: 'no review'})
+        }
+        Review.remove(review)
+    } catch (error) {
+        res.send(error)
+        console.log(error);
+    }
+})
+
+//get specific review 
+router.get('/:id', ensureAuth, async (req, res)=> {
+    try {
+        let review = await Review.findById(req.params.id)      
+        res.send({data: review})  
+    } catch (error) {
+        console.error(err)
+        res.render('error/500')
+    }
+})
+
+//get all review
+router.get('/reviews', ensureAuth, async (req, res) => {
+    try {
+        const stories = await Review.find({ status: 'public' })
+        .populate('Student')
+        .sort({ createdAt: 'desc' })
+        .lean()
+        res.send({data : stories})
+    } catch (error) {
+        res.send(error)
+    }
+})
+
+
+
+
+//get all reviews by specific user
+router.get('/user/:userId', ensureAuth, async (req, res)=> {
+    try {
+        let review = await Review.find({user: req.params.userId, status: 'public'})
+        .populate('Student')
+        .lean(true)   
+
+        res.send({data: review})  
+    } catch (error) {
+        console.error(err)
+        res.render('error/500')
+    }
+})
+
+
 module.exports = router
