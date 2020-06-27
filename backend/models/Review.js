@@ -15,6 +15,7 @@ const ReviewSchema = new mongoose.Schema({
     },
     semester: {
         type: Number,
+        enum: ['Semester_1', 'Semester_2', 'Semester_3', 'Semester_4', 'Semester_5', 'Semester_6','Semester_7', 'Semester_8'],
         required: true
     },
     year: {
@@ -27,7 +28,6 @@ const ReviewSchema = new mongoose.Schema({
     },
     ratings: {
         type: Number,
-        enum: ['Semester 1', 'Semester 2', 'Semester 3', 'Semester 4', 'Semester5', 'Semester 6','Semester 7', 'Semester 8'],
         required: true
     },
     review: {
@@ -36,6 +36,7 @@ const ReviewSchema = new mongoose.Schema({
     },
     status: {
         type: String, 
+        enum: ['public', 'private'],
         required: true
     }, 
     createdAt: {

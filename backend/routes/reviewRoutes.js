@@ -9,18 +9,24 @@ const { remove } = require('../models/Review')
 
 
 // SUBMIT REVIEW
-router.post('/submit', ensureAuth,  async (req, res)=> {
+router.post('/submit', 
+// ensureAuth, 
+ async (req, res)=> {
+    // console.log(req.body);
     try {
-        req.body.student = req.student.id
-        await Student.create(req.body)
-        res.send({data : req.body})
+        req.body.user = req.user.id
+        await Review.create(req.body)
+        res.send({data : req.body, message: 'done'})
     } catch (error) {
         res.send(error)
+        console.log(error);
     }
  })
 
 // UPDATE REVIEW
-router.put('/:id', ensureAuth, async (req, res) => {
+router.put('/:id',
+//  ensureAuth, 
+ async (req, res) => {
     let review = await Review.findById(req.params.id).lean()
     
     try {
@@ -32,16 +38,16 @@ router.put('/:id', ensureAuth, async (req, res) => {
             runValidators:true
             })
         }
-            
     } catch (error) {
         res.send(error)
     }
 
-
 })
 
 //delete the review
-router.delete('/:id', ensureAuth, async(req, res)=> {
+router.delete('/:id', 
+// ensureAuth, 
+async(req, res)=> {
     try {
         let review = await Review.findById(req.params.id)
         if(!review){
@@ -55,7 +61,9 @@ router.delete('/:id', ensureAuth, async(req, res)=> {
 })
 
 //get specific review 
-router.get('/:id', ensureAuth, async (req, res)=> {
+router.get('/:id',
+//  ensureAuth, 
+ async (req, res)=> {
     try {
         let review = await Review.findById(req.params.id)      
         res.send({data: review})  
@@ -66,7 +74,9 @@ router.get('/:id', ensureAuth, async (req, res)=> {
 })
 
 //get all review
-router.get('/reviews', ensureAuth, async (req, res) => {
+router.get('/reviews', 
+// ensureAuth, 
+async (req, res) => {
     try {
         const stories = await Review.find({ status: 'public' })
         .populate('Student')
@@ -82,7 +92,9 @@ router.get('/reviews', ensureAuth, async (req, res) => {
 
 
 //get all reviews by specific user
-router.get('/user/:userId', ensureAuth, async (req, res)=> {
+router.get('/user/:userId', 
+// ensureAuth, 
+async (req, res)=> {
     try {
         let review = await Review.find({user: req.params.userId, status: 'public'})
         .populate('Student')

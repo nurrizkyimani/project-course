@@ -1,0 +1,19 @@
+## Register route
+POST http://localhost:3000/review/submit
+Content-Type: application/json
+
+{
+    "course ": "Calculus",
+    "major": "Computer Science",
+    "semester": "Semester_1" ,
+    "year": 2018,
+    "professor": "Dalijo",
+    "ratings" : 5,
+    "review": "bagus banget",
+    "status": "private",
+    "tags": "math"
+}
+
+
+### 
+GET http://localhost:3000/auth/google

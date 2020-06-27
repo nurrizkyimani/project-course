@@ -9,23 +9,26 @@ module.exports = (passport) => {
     passport.use(new GoogleStrategy({
         clientID: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env['GOOGLE_CLIENT_SECRET'],
-        callbackURL: '/auth/google/callback'
+        callbackURL: '/auth/google/callback' 
     },
     async function(accessToken, refreshToken, profile, done) {
         const newStudent = {
-            googleId: profile.id,
+            googleID: profile.id,
             displayName: profile.displayName,
             firstName: profile.name.givenName,
             lastName: profile.name.familyName,
             image: profile.photos[0].value,
         }
+
+        console.log(newStudent);
         
         try {
             student = await Student.findOne({googleId: profile.id})
             if(student){
                 done(null,student)
+
             } else {
-                student = await Student.create({newStudent})
+                student = await Student.create(newStudent)
                 done(null, student)
             }
             done(null, student)
@@ -36,12 +39,16 @@ module.exports = (passport) => {
     }));
 
     passport.serializeUser((user, done) => {
+        console.log('serializing start.');
         done(null, user.id)
+        console.log('serializing done');
     })
     
     passport.deserializeUser((id, done) => {
-        User.findById(id, (err, user) => done(err, user))
-    })
+        console.log('deserializing start.');
+        Student.findById(id, (err, user) => done(err, user))
+        console.log('deserialize done');
+      })
 
 
     

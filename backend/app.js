@@ -21,8 +21,7 @@ if(process.env.NODE_ENV === 'development'){
 }
 
 //connect bodyparser
-
-app.use(express.urlencoded({extended:false}))
+app.use(express.urlencoded({extended:true}))
 app.use(express.json())
 
 //Sessions;
