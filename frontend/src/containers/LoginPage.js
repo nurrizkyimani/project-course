@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 import {
   BrowserRouter as Router,
@@ -7,7 +7,7 @@ import {
   Link,
   Redirect,
   useHistory,
-  useLocation
+  useLocation,
 } from "react-router-dom";
 
 const fakeAuth = {
@@ -19,30 +19,26 @@ const fakeAuth = {
   signout(cb) {
     fakeAuth.isAuthenticated = false;
     setTimeout(cb, 100);
-  }
+  },
 };
 
 const LoginPage = () => {
+  let history = useHistory();
+  let location = useLocation();
+  let { from } = location.state || { from: { pathname: "/" } };
+  let login = () => {
+    fakeAuth.authenticate(() => {
+      history.replace(from);
+    });
+  };
 
-    let history = useHistory();
-    let location = useLocation();
-
-    let { from } = location.state || { from: { pathname: "/" } };
-    let login = () => {
-        fakeAuth.authenticate(() => {
-        history.replace(from);
-        });
-    };
-
-    
-    return (
-        <div>
-            <h2> this is login</h2>
-						<p>You must log in to view the page at {from.pathname}</p>
+  return (
+    <div>
+      <h2> this is login</h2>
+      <p>You must log in to view the page at {from.pathname}</p>
       <button onClick={login}>Log in</button>
-        </div>
-    );
-}
+    </div>
+  );
+};
 
 export default LoginPage;
- 

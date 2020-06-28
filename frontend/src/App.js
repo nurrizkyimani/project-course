@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState, useContext, useEffect } from "react";
 // import './App.css';
-import './styles/tailwind.css'
-import Navbar from './component/Navbar';
+import "./styles/tailwind.css";
+import Navbar from "./component/Navbar";
 import {
   BrowserRouter as Router,
   Switch,
@@ -9,11 +9,10 @@ import {
   Link,
   Redirect,
 } from "react-router-dom";
-import LoginPage from './containers/LoginPage';
-import HomePage from './containers/HomePage';
-import DashboardPage from './containers/DashboardPage';
-
-
+import LoginPage from "./containers/LoginPage";
+import HomePage from "./containers/HomePage";
+import DashboardPage from "./containers/DashboardPage";
+import axios from "axios";
 
 const fakeAuth = {
   isAuthenticated: false,
@@ -24,9 +23,8 @@ const fakeAuth = {
   signout(cb) {
     fakeAuth.isAuthenticated = false;
     setTimeout(cb, 100);
-  }
+  },
 };
-
 
 function PrivateRoute({ children, ...rest }) {
   return (
@@ -39,7 +37,7 @@ function PrivateRoute({ children, ...rest }) {
           <Redirect
             to={{
               pathname: "/login",
-              state: { from: location }
+              state: { from: location },
             }}
           />
         )
@@ -49,29 +47,58 @@ function PrivateRoute({ children, ...rest }) {
 }
 
 function App() {
+  const [isAuth, setIsAuth] = useState(false);
+  const [user, setUser] = useState({});
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:4000/auth/login/success", {
+        method: "GET",
+        credentials: "included",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Credentials": true,
+        },
+      })
+      .then((response) => {
+        console.log("respond out ");
+        if (response.status == 200) return response.json();
+        throw new Error("failed to authenticated");
+      })
+      .then((response) => {
+        setIsAuth(true);
+        setUser(response.user);
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsAuth(false);
+        setError("Failed to Authenticate");
+      });
+    {
+    }
+  });
+
   return (
     <Router>
       <div className="App">
-          <Navbar>
-       
-        
-
-          </Navbar>
+        {/* Navigation bar */}
+        <Navbar />
       </div>
 
-    <Switch>
-      <Route path="/login">
-        <LoginPage/>
-      </Route>
-      <Route path="/">
-        <HomePage/>
-      </Route>
-
-      <PrivateRoute path="/protected">
-            <DashboardPage/>
-          </PrivateRoute>
-    </Switch>
-
+      {/* the page that swithc */}
+      <Switch>
+        <Route path="/login">
+          <LoginPage />
+        </Route>
+        <Route path="/">
+          <HomePage />
+        </Route>
+        <PrivateRoute path="/dashboard">
+          <DashboardPage />
+        </PrivateRoute>
+      </Switch>
     </Router>
   );
 }
