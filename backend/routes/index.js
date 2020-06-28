@@ -6,7 +6,7 @@ const Review = require("../models/Review");
 const Student = require("../models/Student");
 
 router.get("/dashboard", ensureAuth, async (req, res) => {
-  console.log("auth only");
+  console.log("dashboard route, ensure auth");
   try {
     const stories = await Review.find({ user: req.student.id }).lean();
     res.send({ stories });

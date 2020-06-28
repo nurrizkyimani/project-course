@@ -1,12 +1,11 @@
-import React from 'react'
+import React from "react";
 
 function DashboardPage() {
-    return (
-        <div>
-            <h2> This is dashboard</h2>
-            
-        </div>
-    )
+  return (
+    <div>
+      <h2> This is dashboard this is dashaboard</h2>
+    </div>
+  );
 }
 
-export default DashboardPage
+export default DashboardPage;

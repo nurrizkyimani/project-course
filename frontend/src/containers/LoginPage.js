@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import {
   BrowserRouter as Router,
@@ -9,6 +9,8 @@ import {
   useHistory,
   useLocation,
 } from "react-router-dom";
+
+import { AuthContext } from "../App";
 
 const fakeAuth = {
   isAuthenticated: false,
@@ -31,6 +33,8 @@ const LoginPage = () => {
       history.replace(from);
     });
   };
+
+  const isAuth = useContext(AuthContext);
 
   return (
     <div>
