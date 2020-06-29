@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-
+import axios from "axios";
 import {
   BrowserRouter as Router,
   Switch,
@@ -11,6 +11,8 @@ import {
 } from "react-router-dom";
 
 import { AuthContext } from "../App";
+import GoogleButton from "react-google-button";
+import Axios from "axios";
 
 const fakeAuth = {
   isAuthenticated: false,
@@ -36,11 +38,19 @@ const LoginPage = () => {
 
   const isAuth = useContext(AuthContext);
 
+  const signIn = () => {
+    // axios.get("http://localhost:3000/auth/google");
+    window.open("http://localhost:3000/auth/google", "googleSignIn");
+  };
+
   return (
     <div>
       <h2> this is login</h2>
-      <p>You must log in to view the page at {from.pathname}</p>
-      <button onClick={login}>Log in</button>
+      <div className="flex justify-center align-middle">
+        <div>
+          <GoogleButton onClick={signIn} />
+        </div>
+      </div>
     </div>
   );
 };

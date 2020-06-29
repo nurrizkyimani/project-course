@@ -58,15 +58,7 @@ function App() {
   useEffect(() => {
     console.log("trigger use context");
     axios
-      .get("http://localhost:3000/auth/login/success", {
-        method: "GET",
-        credentials: "included",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Credentials": true,
-        },
-      })
+      .get("http://localhost:3000/auth/login/success")
       .then((response) => {
         console.log("respond out ");
         if (response.status == 200) return response.json();

@@ -4,30 +4,6 @@ const router = express.Router();
 
 const CLIENT_HOME_PAGE_URL = "http://localhost:3000";
 
-//auth with google;
-router.get("/google", passport.authenticate("google", { scope: ["profile"] }));
-
-//login callback from google auth;
-router.get(
-  "/google/callback",
-  passport.authenticate("google", {
-    failureRedirect: "/auth/login/failed",
-    successRedirect: CLIENT_HOME_PAGE_URL,
-  }),
-  //send respond json respond authenticated
-  (req, res) => {
-    console.log("authentication from google is done");
-    if (req.user) {
-      res.json({
-        success: true,
-        message: "user has successfully authenticated",
-        user: req.user,
-        // cookies: req.cookies,
-      });
-    }
-  }
-);
-
 router.get("/login/success", (req, res) => {
   if (req.user) {
     res.json({
@@ -58,5 +34,25 @@ router.get("/logout", (req, res) => {
     // cookies: req.cookies,
   });
 });
+
+//auth with google;
+router.get("/google", passport.authenticate("google", { scope: ["profile"] }));
+
+//login callback from google auth;
+router.get(
+  "/google/callback",
+
+  function (req, res) {
+    passport.authenticate("google"),
+      res.redirect("http://localhost:3001/dashboard");
+    //send json if already authenticated;
+    // res.json({
+    //   success: true,
+    //   message: "user alrady authenticated",
+    //   user: req.user,
+    // });
+    console.log(req.user);
+  }
+);
 
 module.exports = router;

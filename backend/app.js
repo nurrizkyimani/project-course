@@ -35,8 +35,6 @@ app.use(
   })
 );
 
-app.use(cookieParser());
-
 //Sessions;
 app.use(
   session({
@@ -48,14 +46,15 @@ app.use(
     }),
   })
 );
-
+app.use(cookieParser());
 //Passport js middleware
 app.use(passport.initialize());
+//passport session
 app.use(passport.session());
 
 app.use(
   cors({
-    origin: "http://localhost:3000", // allow to server to accept request from different origin
+    origin: "http://localhost:3001", // allow to server to accept request from different origin
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true, // allow session cookie from browser to pass through
   })

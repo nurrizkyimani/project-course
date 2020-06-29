@@ -32,7 +32,7 @@ const HomePage = () => {
 
   useEffect(() => {
     setReviews(reviewMain);
-  });
+  }, [reviews]);
 
   return (
     <div>
