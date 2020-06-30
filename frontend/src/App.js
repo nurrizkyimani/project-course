@@ -24,7 +24,7 @@ import axios from "axios";
 //     fakeAuth.isAuthenticated = false;
 //     setTimeout(cb, 100);
 //   },
-// };
+// }
 
 function PrivateRoute({ children, ...rest }) {
   const isAuth = useContext(AuthContext);
@@ -60,7 +60,7 @@ function App() {
     axios
       .get("http://localhost:3000/auth/login/success")
       .then((response) => {
-        console.log("respond out ");
+        console.log(response);
         if (response.status == 200) return response.json();
         throw new Error("failed to authenticated");
       })
@@ -74,7 +74,8 @@ function App() {
         setIsAuth(false);
         setError("Failed to Authenticate");
       });
-  });
+    console.log("use effect done");
+  }, []);
 
   return (
     <AuthContext.Provider value={isAuth}>
