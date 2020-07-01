@@ -15,7 +15,8 @@ router.get("/login/success", (req, res) => {
     });
   } else {
     res.json({
-      error: "doeesnt work",
+      sucess: false,
+      message: "user is not authenticated",
     });
   }
 });
@@ -48,27 +49,30 @@ router.get("/google", passport.authenticate("google", { scope: ["profile"] }));
 //login callback from google auth;
 router.get(
   "/google/callback",
-  // passport.authenticate("google")
-
-  function (req, res) {
-    passport.authenticate("google");
-    if (req.user == undefined)
-      res.redirect("http://localhost:3000/auth/login/failed");
-
-    res.redirect("http://localhost:3001/dashboard");
-    console.log("rest");
-    //send json if already authenticated;
-    // res.json({
-    //   success: true,
-    //   message: "user alrady authenticated",
-    //   user: req.user,
-    // });
-    console.log({
-      success: true,
-      message: "user alrady authenticated",
-      user: req.user,
-    });
-  }
+  passport.authenticate("google", {
+    failureRedirect: "/login/failed",
+    successRedirect: "/login/succes",
+  })
 );
 
 module.exports = router;
+
+// function (req, res) {
+//   passport.authenticate("google");
+//   if (req.user == undefined)
+//     res.redirect("http://localhost:3000/auth/login/failed");
+
+//   res.redirect("http://localhost:3001/dashboard");
+//   console.log("rest");
+//   //send json if already authenticated;
+//   // res.json({
+//   //   success: true,
+//   //   message: "user alrady authenticated",
+//   //   user: req.user,
+//   // });
+//   console.log({
+//     success: true,
+//     message: "user alrady authenticated",
+//     user: req.user,
+//   });
+// }
