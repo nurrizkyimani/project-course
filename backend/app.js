@@ -18,6 +18,7 @@ require("./passport")(passport);
 //database init
 connectDatabase();
 
+//expresss init
 const app = express();
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
@@ -27,6 +28,9 @@ if (process.env.NODE_ENV === "development") {
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+app.disable("x-powered-by");
+
+//create cookie session
 app.use(
   cookieSession({
     name: "session",
@@ -38,7 +42,7 @@ app.use(
 //Sessions;
 app.use(
   session({
-    secret: "tes2",
+    secret: process.env.COOKIE_KEY,
     resave: false,
     saveUninitialized: false,
     store: new MongoStore({
@@ -46,6 +50,7 @@ app.use(
     }),
   })
 );
+
 app.use(cookieParser());
 //Passport js middleware
 app.use(passport.initialize());

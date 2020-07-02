@@ -13,6 +13,7 @@ import LoginPage from "./containers/LoginPage";
 import HomePage from "./containers/HomePage";
 import DashboardPage from "./containers/DashboardPage";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 // const fakeAuth = {
 //   isAuthenticated: false,
@@ -57,25 +58,30 @@ function App() {
 
   useEffect(() => {
     console.log("trigger use context");
+    // axios.get("http://localhost:3000/auth/login/success").then((response) => {
+    //   console.log(response);
+    // });
     axios
-      .get("http://localhost:3000/auth/login/success")
-      .then((response) => {
-        console.log(response);
-        if (response.status == 200) return response.json();
-        throw new Error("failed to authenticated");
+      .get("http://localhost:3000/auth/login/success", {
+        withCredentials: true,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+        },
       })
-      .then((response) => {
-        console.log("set auth true");
-        setIsAuth(true);
-        setUser(response.user);
-      })
-      .catch((error) => {
-        console.log(error);
-        setIsAuth(false);
-        setError("Failed to Authenticate");
+      .then((res) => {
+        if (res.data == undefined) {
+          setUser(res.data.user);
+          setIsAuth(true);
+        }
       });
-    console.log("use effect done");
   }, []);
+
+  useEffect(() => {
+    console.log("clg user new useeffect");
+    console.log(user);
+  }, [user]);
 
   return (
     <AuthContext.Provider value={isAuth}>

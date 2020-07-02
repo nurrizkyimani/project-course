@@ -1,9 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 
 function DashboardPage() {
+  const [email, setEmail] = useState("");
+
   return (
     <div>
-      <h2> This is dashboard this is dashaboard</h2>
+      <form onSubmit={(e) => console.log(e.target.value)}>
+        <input
+          type="text"
+          placeholder="Enter email address"
+          value={email}
+          onChange={(e) => console.log(e.target.value)}
+        />
+      </form>
     </div>
   );
 }
