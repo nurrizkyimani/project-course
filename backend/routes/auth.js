@@ -22,6 +22,7 @@ router.get("/login/success", async (req, res) => {
     res.send({
       success: false,
       message: "user is not authenticated",
+      isAuthenticated: req.isAuthenticated(),
       // data: res,
     });
   }
@@ -38,7 +39,6 @@ router.get("/login/failed", (req, res) => {
 //route for logout;
 router.get("/logout", (req, res) => {
   req.logOut();
-
   res.json({
     success: true,
     message: "user has successfully log out",

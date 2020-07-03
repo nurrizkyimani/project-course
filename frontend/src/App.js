@@ -58,30 +58,31 @@ function App() {
 
   useEffect(() => {
     console.log("trigger use context");
-    // axios.get("http://localhost:3000/auth/login/success").then((response) => {
-    //   console.log(response);
-    // });
-    axios
-      .get("http://localhost:3000/auth/login/success", {
-        withCredentials: true,
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-        },
-      })
-      .then((res) => {
-        if (res.data == undefined) {
-          setUser(res.data.user);
-          setIsAuth(true);
-        }
-      });
-  }, []);
 
-  useEffect(() => {
-    console.log("clg user new useeffect");
-    console.log(user);
-  }, [user]);
+    async function fetch() {
+      const response = await axios.get(
+        "http://localhost:3000/auth/login/success",
+        {
+          withCredentials: true,
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+          },
+        }
+      );
+
+      if (response.data.success != false) {
+        setIsAuth(true);
+        setUser(response.data);
+      } else {
+        setError("Response Failed");
+      }
+      console.log(response);
+    }
+
+    fetch();
+  }, []);
 
   return (
     <AuthContext.Provider value={isAuth}>
