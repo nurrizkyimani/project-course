@@ -22,16 +22,19 @@ module.exports = (passport) => {
           image: profile.photos[0].value,
         };
 
+        console.log("newstudent");
         console.log(newStudent);
-
         //find the student data from mongo
         try {
-          student = await Student.findOne({ googleId: profile.id });
-          //if exist, done
+          student = await Student.findOne({ googleID: profile.id });
+          console.log(student);
+
           if (student) {
+            console.log("student exist");
             done(null, student);
           } else {
             student = await Student.create(newStudent);
+            console.log("student is created");
             done(null, student);
           }
           done(null, student);
@@ -54,6 +57,9 @@ module.exports = (passport) => {
     console.log("deserializing start.");
     try {
       const user = await Student.findById(id, (err, user) => done(err, user));
+      console.log("user from deserializer");
+      console.log(user);
+
       done(null, user);
     } catch (error) {
       done(new Error("Failed to deserialize user"));

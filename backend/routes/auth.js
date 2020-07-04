@@ -9,7 +9,7 @@ router.get("/login/success", async (req, res) => {
   console.log(req.user);
   if (req.user) {
     console.log(req.isAuthenticated());
-    console.log("auth true; req user exist");
+
     res.status(200).send({
       success: true,
       message: "user has successfully authenticated",
@@ -66,6 +66,14 @@ router.get(
     failureRedirect: "auth/login/failed",
     successRedirect: CLIENT_HOME_PAGE_URL,
   })
+  // () => {
+  //   console.log(res);
+
+  //   try {
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 );
 
 module.exports = router;
