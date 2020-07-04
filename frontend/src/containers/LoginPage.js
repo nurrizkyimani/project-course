@@ -39,9 +39,24 @@ const LoginPage = () => {
   };
 
   const isAuth = useContext(AuthContext);
+
+  async function logout2() {
+    const response = await axios.get("http://localhost:3000/auth/logout", {
+      withCredentials: true,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+      },
+    });
+
+    console.log(response);
+  }
+
   const logout = () => {
     console.log("donzo ");
     axios.get("http://localhost:3000/auth/logout");
+
     console.log("lgout done");
   };
   const signIn = () => {
@@ -61,7 +76,7 @@ const LoginPage = () => {
             <GoogleLogout
               clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
               buttonText="Bitch Logout"
-              onClick={logout}
+              onClick={logout2()}
             ></GoogleLogout>
           ) : (
             <GoogleButton onClick={signIn} />

@@ -14,6 +14,7 @@ import HomePage from "./containers/HomePage";
 import DashboardPage from "./containers/DashboardPage";
 import axios from "axios";
 import Cookies from "js-cookie";
+import DasboardList from "./containers/DasboardList";
 
 // const fakeAuth = {
 //   isAuthenticated: false,
@@ -93,6 +94,9 @@ function App() {
 
         {/* the page that swithc */}
         <Switch>
+          <Route path="/dashlist">
+            <DasboardList />
+          </Route>
           <Route path="/dashboard">
             <DashboardPage />
           </Route>
