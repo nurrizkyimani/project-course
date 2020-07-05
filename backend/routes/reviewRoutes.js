@@ -12,7 +12,7 @@ const { remove } = require('../models/Review')
 router.post('/submit', 
 // ensureAuth, 
  async (req, res)=> {
-    // console.log(req.body);
+    console.log(req.user.id);
     try {
         req.body.user = req.user.id
         await Review.create(req.body)

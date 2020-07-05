@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { InputDash } from "../component/InputDash";
+import OptionDash from "../component/OptionDash";
 
 function DashboardPage() {
   const { register, handleSubmit, watch, errors } = useForm();
@@ -8,77 +10,45 @@ function DashboardPage() {
     console.log(data);
   };
 
+
+  const options = [{ key: "semester2", value: "Semester 2" }]
+
+
   return (
     <div className="flex justify-center h-screen flex-col">
       <div className=" container mx-auto w-full max-w-4xl m-auto">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 "
+          className=" flex flex-col justify-center bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 "
         >
-          <div className="md:flex md:items-center mb-6">
-            <div class="md:w-1/5">
-              <label
-                className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
-                for="inline-full-name"
-              >
-                Semester
-              </label>
-            </div>
-            <div class="md:w-2/3">
-              <input
-                className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="inline-full-name"
-                name="example"
-                ref={register}
-              />
-            </div>
-          </div>
+          <InputDash
+            label="semesterss"
+            nameprop="semester"
+            referprop={register}
+          />
 
-          <div className="md:flex md:items-center mb-6">
-            <div class="md:w-1/5">
-              <label
-                className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
-                for="inline-full-name"
-              >
-                Major
-              </label>
-            </div>
-            <div class="md:w-2/3">
-              <input
-                className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="inline-full-name"
-                name="major"
-                ref={register({ required: true })}
-              />
-            </div>
-          </div>
+          <OptionDash
+            listoptions={options}
+            label="semestersssssssss"
+            nameprop="semester"
+            referprop={register({ required: true })}
+          />
 
-          <div>
-            <label>course</label>
-            <input name="course" ref={register} required />
-          </div>
+          <InputDash label="course" nameprop="course" referprop={register} />
 
-          <div>
-            <label>year</label>
-            <input name="year" ref={register} required />
-          </div>
+          <InputDash label="year" nameprop="year" referprop={register} />
 
-          <div>
-            <label>teacher</label>
-            <input name="techer" ref={register} required />
-          </div>
-          <div>
-            <label>ratings</label>
-            <input name="ratings" ref={register} required />
-          </div>
-          <div>
-            <label>status</label>
-            <input name="status" ref={register} required />
-          </div>
-          <div>
-            <label>tags</label>
-            <input name="tags" ref={register} required />
-          </div>
+          <InputDash
+            label="instructor"
+            nameprop="instructor"
+            referprop={register}
+          />
+          <InputDash label="ratings" nameprop="ratings" referprop={register} />
+
+          <InputDash label="status" nameprop="status" referprop={register} />
+
+          <InputDash label="tags" nameprop="tags" referprop={register} />
+
           {errors.exampleRequired && <span>This field is required</span>}
 
           <input type="submit" />

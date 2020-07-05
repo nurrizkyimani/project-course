@@ -16,18 +16,6 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import DasboardList from "./containers/DasboardList";
 
-// const fakeAuth = {
-//   isAuthenticated: false,
-//   authenticate(cb) {
-//     fakeAuth.isAuthenticated = true;
-//     setTimeout(cb, 100); // fake async
-//   },
-//   signout(cb) {
-//     fakeAuth.isAuthenticated = false;
-//     setTimeout(cb, 100);
-//   },
-// }
-
 function PrivateRoute({ children, ...rest }) {
   const isAuth = useContext(AuthContext);
 
@@ -86,7 +74,7 @@ function App() {
   }, []);
 
   return (
-    <AuthContext.Provider value={isAuth}>
+    <AuthContext.Provider value={isAuth, user}>
       <Router>
         <div className="App">
           <Navbar />

@@ -32,7 +32,7 @@ const ReviewSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  teacher: {
+  instructor: {
     type: String,
     required: true,
   },

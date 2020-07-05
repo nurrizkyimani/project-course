@@ -21,9 +21,6 @@ module.exports = (passport) => {
           lastName: profile.name.familyName,
           image: profile.photos[0].value,
         };
-
-        console.log("newstudent");
-        console.log(newStudent);
         //find the student data from mongo
         try {
           student = await Student.findOne({ googleID: profile.id });
