@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const connectDatabase = require("./mongodb");
 const morgan = require("morgan");
-const cookieSession = require("cookie-session");
+// const cookieSession = require("cookie-session");
 const passport = require("passport");
 const session = require("express-session");
 const cors = require("cors");
@@ -31,13 +31,13 @@ app.use(express.json());
 app.disable("x-powered-by");
 
 //create cookie session
-app.use(
-  cookieSession({
-    name: "session",
-    keys: [process.env.COOKIE_KEY],
-    maxAge: 24 * 60 * 60 * 100,
-  })
-);
+// app.use(
+//   cookieSession({
+//     name: "session",
+//     keys: [process.env.COOKIE_KEY],
+//     maxAge: 24 * 60 * 60 * 100,
+//   })
+// );
 
 //Sessions;
 app.use(
@@ -51,12 +51,6 @@ app.use(
   })
 );
 
-app.use(cookieParser());
-//Passport js middleware
-app.use(passport.initialize());
-//passport session
-app.use(passport.session());
-
 app.use(
   cors({
     origin: "http://localhost:3001", // allow to server to accept request from different origin
@@ -64,6 +58,12 @@ app.use(
     credentials: true, // allow session cookie from browser to pass through
   })
 );
+
+app.use(cookieParser());
+//Passport js middleware
+app.use(passport.initialize());
+//passport session
+app.use(passport.session());
 
 // ROUTE
 // app.use("/", require("./routes/index"));

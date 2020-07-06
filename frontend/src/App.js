@@ -37,7 +37,7 @@ function PrivateRoute({ children, ...rest }) {
     />
   );
 }
-
+export const UserContext = React.createContext();
 export const AuthContext = React.createContext();
 
 function App() {
@@ -74,33 +74,35 @@ function App() {
   }, []);
 
   return (
-    <AuthContext.Provider value={isAuth, user}>
-      <Router>
-        <div className="App">
-          <Navbar />
-        </div>
+    <UserContext.Provider value={user}>
+      <AuthContext.Provider value={isAuth}>
+        <Router>
+          <div className="App">
+            <Navbar />
+          </div>
 
-        {/* the page that swithc */}
-        <Switch>
-          <Route path="/dashlist">
-            <DasboardList />
-          </Route>
-          <Route path="/dashboard">
-            <DashboardPage />
-          </Route>
-          <Route path="/login">
-            <LoginPage />
-          </Route>
-          <Route path="/">
-            <HomePage />
-          </Route>
+          {/* the page that swithc */}
+          <Switch>
+            <Route path="/dashlist">
+              <DasboardList />
+            </Route>
+            <Route path="/dashboard">
+              <DashboardPage />
+            </Route>
+            <Route path="/login">
+              <LoginPage />
+            </Route>
+            <Route path="/">
+              <HomePage />
+            </Route>
 
-          {/* <PrivateRoute path="/dashboard">
+            {/* <PrivateRoute path="/dashboard">
             <DashboardPage />
           </PrivateRoute> */}
-        </Switch>
-      </Router>
-    </AuthContext.Provider>
+          </Switch>
+        </Router>
+      </AuthContext.Provider>
+    </UserContext.Provider>
   );
 }
 

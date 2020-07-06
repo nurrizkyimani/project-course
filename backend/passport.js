@@ -23,18 +23,18 @@ module.exports = (passport) => {
         };
         //find the student data from mongo
         try {
-          student = await Student.findOne({ googleID: profile.id });
-          console.log(student);
+          user = await Student.findOne({ googleID: profile.id });
+          console.log(user);
 
-          if (student) {
+          if (user) {
             console.log("student exist");
-            done(null, student);
+            done(null, user);
           } else {
-            student = await Student.create(newStudent);
+            user = await Student.create(newStudent);
             console.log("student is created");
-            done(null, student);
+            done(null, user);
           }
-          done(null, student);
+          done(null, user);
         } catch (error) {
           console.log(error);
           throw new Error("Error in creating user ");

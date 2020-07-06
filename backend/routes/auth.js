@@ -6,7 +6,6 @@ const CLIENT_HOME_PAGE_URL = "http://localhost:3001";
 
 router.get("/login/success", async (req, res) => {
   console.log("login start");
-  console.log(req.user);
   if (req.user) {
     console.log(req.isAuthenticated());
 

@@ -1,22 +1,18 @@
 import React from "react";
 
 const optionDash = (props) => {
-  console.log("props");
-  console.log(props.listprop);
-
-  const content = props.listoptions.map((post) =>
-
-    <option value="post.key">{post.value}</option>
-  
-  );
-
+  const content = props.listoptions.map((post) => (
+    <option key={post.key} value={post.key}>
+      {post.value}
+    </option>
+  ));
 
   return (
     <div className="md:flex md:items-center mb-6">
       <div class="md:w-1/5">
         <label
           className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
-          for="inline-full-name"
+          /* for="inline-full-name" */
         >
           {props.label}
         </label>
@@ -28,14 +24,7 @@ const optionDash = (props) => {
           name={props.nameprop}
           ref={props.referprop}
         >
-        if(props.listoptions){
-          content
-        }
-          <option>
-            Really long option that will likely overlap the chevron
-          </option>
-          <option>Option 2</option>
-          <option>Option 3</option>
+          if(props.listoptions){content}
         </select>
       </div>
     </div>
