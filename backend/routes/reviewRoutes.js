@@ -15,7 +15,6 @@ router.post(
   async (req, res) => {
     console.log("find req user id");
     console.log(req.user);
-
     try {
       req.body.user = req.user.id;
       await Review.create(req.body);

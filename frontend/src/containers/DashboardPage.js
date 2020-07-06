@@ -7,7 +7,7 @@ import axios from "axios";
 function DashboardPage() {
   const { register, handleSubmit, watch, errors } = useForm();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const realdata = {
       course: data.course,
       major: data.major,
@@ -24,36 +24,41 @@ function DashboardPage() {
     const config = {
       withCredentials: true,
       headers: {
-        "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
-        "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
       },
     };
-    axios
-      .post(url, config, {
-        realdata,
-      })
+    // axios
+    //   .post(url, config, {
+    //     realdata,
+    //   })
+    //   .then((res) => {
+    //     console.log(res);
+    //   });
+
+    fetch(url, {
+      method: "POST",
+      body: JSON.stringify(realdata),
+      headers: { "Content-Type": "application/json" },
+      mode: "cors",
+      credentials: "include",
+    })
       .then((res) => {
         console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
       });
-
-    // fetch(url, {
-    //   method: "POST",
-    //   body: JSON.stringify(realdata),
-    //   headers: { "Content-Type": "application/json" },
-    //   credentials: "include",
-    // });
   };
 
   const options = [
-    { key: "semester1", value: "Semester 1" },
-    { key: "semester2", value: "Semester 2" },
-    { key: "semester3", value: "Semester 3" },
-    { key: "semester4", value: "Semester 4" },
-    { key: "semester5", value: "Semester 5" },
-    { key: "semester6", value: "Semester 6" },
-    { key: "semester7", value: "Semester 7" },
-    { key: "semester8", value: "Semester 8" },
+    { key: "semester_1", value: "Semester 1" },
+    { key: "semester_2", value: "Semester 2" },
+    { key: "semester_3", value: "Semester 3" },
+    { key: "semester_4", value: "Semester 4" },
+    { key: "semester_5", value: "Semester 5" },
+    { key: "semester_6", value: "Semester 6" },
+    { key: "semester_7", value: "Semester 7" },
+    { key: "semester_8", value: "Semester 8" },
   ];
 
   const statuses = [
@@ -100,12 +105,16 @@ function DashboardPage() {
             referprop={register}
           />
 
+          <InputDash label="Major" nameprop="major" referprop={register} />
+
           <OptionDash
             listoptions={ratings}
             label="Ratings"
             nameprop="ratings"
             referprop={register({ required: true })}
           />
+
+          <InputDash label="review" nameprop="review" referprop={register} />
 
           <InputDash label="tags" nameprop="tags" referprop={register} />
 
