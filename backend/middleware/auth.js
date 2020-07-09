@@ -4,7 +4,7 @@ module.exports = {
       return next();
     } else {
       console.log("ensure auth is failed");
-      res.redirect("/");
+      // res.redirect("/");
     }
   },
   ensureGuest: function (req, res, next) {

@@ -9,49 +9,42 @@ const { remove } = require("../models/Review");
 const passport = require("passport");
 
 // SUBMIT REVIEW
-router.post(
-  "/submit",
-  // ensureAuth,
-  async (req, res, next) => {
-    req.body.user = req.user.id;
+router.post("/submit", ensureAuth, async (req, res, next) => {
+  req.body.user = req.user.id;
 
-    try {
-      const result = await Review.create(req.body);
-      console.log(result);
-      if (!result) return res.status(400).send("User not Found");
-      res.send(result);
-      next();
-    } catch (error) {
-      console.log(error);
-    }
+  try {
+    const result = await Review.create(req.body);
+    console.log(result);
+
+    if (!result) return res.status(400).send("User not Found");
+
+    res.send(result);
+  } catch (error) {
+    console.log(error);
   }
-);
+});
 
 // UPDATE REVIEW
-router.put(
-  "/:id",
-  //  ensureAuth,
-  async (req, res) => {
-    let review = await Review.findById(req.params.id).lean();
+router.put("/:id", ensureAuth, async (req, res) => {
+  let review = await Review.findById(req.params.id).lean();
 
-    try {
-      if (req.student.id != review.user) {
-        res.send("not the same id");
-      } else {
-        review = await Review.findByIdAndUpdate(
-          { _id: req.params.id },
-          req.body,
-          {
-            new: true,
-            runValidators: true,
-          }
-        );
-      }
-    } catch (error) {
-      res.send(error);
+  try {
+    if (req.student.id != review.user) {
+      res.send("not the same id");
+    } else {
+      review = await Review.findByIdAndUpdate(
+        { _id: req.params.id },
+        req.body,
+        {
+          new: true,
+          runValidators: true,
+        }
+      );
     }
+  } catch (error) {
+    res.send(error);
   }
-);
+});
 
 //delete the review
 router.delete(
