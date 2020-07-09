@@ -12,15 +12,16 @@ const passport = require("passport");
 router.post(
   "/submit",
   // ensureAuth,
-  async (req, res) => {
-    console.log("find req user id");
-    console.log(req.user);
+  async (req, res, next) => {
+    req.body.user = req.user.id;
+
     try {
-      req.body.user = req.user.id;
-      await Review.create(req.body);
-      res.send({ data: req.body, message: "done" });
+      const result = await Review.create(req.body);
+      console.log(result);
+      if (!result) return res.status(400).send("User not Found");
+      res.send(result);
+      next();
     } catch (error) {
-      res.send(error);
       console.log(error);
     }
   }

@@ -43,6 +43,7 @@ function DashboardPage() {
       credentials: "include",
     })
       .then((res) => {
+        console.log("ini result");
         console.log(res);
       })
       .catch((err) => {

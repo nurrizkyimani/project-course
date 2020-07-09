@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const connectDatabase = require("./mongodb");
 const morgan = require("morgan");
-// const cookieSession = require("cookie-session");
+const cookieSession = require("cookie-session");
 const passport = require("passport");
 const session = require("express-session");
 const cors = require("cors");
@@ -30,14 +30,14 @@ app.use(express.json());
 
 app.disable("x-powered-by");
 
-//create cookie session
-// app.use(
-//   cookieSession({
-//     name: "session",
-//     keys: [process.env.COOKIE_KEY],
-//     maxAge: 24 * 60 * 60 * 100,
-//   })
-// );
+// create cookie session
+app.use(
+  cookieSession({
+    name: "session",
+    keys: [process.env.COOKIE_KEY],
+    maxAge: 24 * 60 * 60 * 100,
+  })
+);
 
 //Sessions;
 app.use(
