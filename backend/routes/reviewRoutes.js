@@ -21,6 +21,7 @@ router.get(
 
       res.status(200).json({
         success: true,
+        info: "success get all review",
         data: reviews,
       });
     } catch (err) {
@@ -46,7 +47,11 @@ router.post(
 
       if (!result) return res.status(400).send("User not Found");
 
-      res.send(result);
+      res.status(200).json({
+        success: true,
+        info: "success submit review",
+        data: req.body,
+      });
     } catch (err) {
       console.log(err);
       res.json({
@@ -58,29 +63,38 @@ router.post(
 );
 
 // UPDATE REVIEW
-router.put("/:id", ensureAuth, async (req, res) => {
-  let review = await Review.findById(req.params.id).lean();
-  try {
-    if (req.student.id != review.user) {
-      res.send("not the same user id");
-    } else {
-      review = await Review.findByIdAndUpdate(
-        { _id: req.params.id },
-        req.body,
-        {
-          new: true,
-          runValidators: true,
-        }
-      );
+router.put(
+  "/:id",
+  // ensureAuth,
+  async (req, res) => {
+    let review = await Review.findById(req.params.id).lean();
+    try {
+      if (req.student.id != review.user) {
+        res.send("not the same user id");
+      } else {
+        review = await Review.findByIdAndUpdate(
+          { _id: req.params.id },
+          req.body,
+          {
+            new: true,
+            runValidators: true,
+          }
+        );
+      }
+      res.status(200).json({
+        success: true,
+        info: "success update review",
+        data: req.body,
+      });
+    } catch (err) {
+      console.log(err);
+      res.json({
+        success: false,
+        info: `error info : ${err}`,
+      });
     }
-  } catch (err) {
-    console.log(err);
-    res.json({
-      success: false,
-      info: `error info : ${err}`,
-    });
   }
-});
+);
 
 //delete the review
 router.delete(
@@ -93,6 +107,11 @@ router.delete(
         res.render("error", { error: "no review" });
       }
       Review.remove(review);
+
+      res.status(200).json({
+        success: true,
+        info: "success delete review",
+      });
     } catch (err) {
       console.log(err);
       res.json({
@@ -110,7 +129,11 @@ router.get(
   async (req, res) => {
     try {
       let review = await Review.findById(req.params.id);
-      res.send({ data: review });
+
+      res.status(200).json({
+        success: true,
+        data: req.body,
+      });
     } catch (error) {
       console.error(err);
       res.json({

@@ -74,7 +74,7 @@ function App() {
   }, []);
 
   return (
-    <UserContext.Provider value={user}>
+    <UserContext.Provider value={user.user}>
       <AuthContext.Provider value={isAuth}>
         <Router>
           <div className="App">

@@ -57,6 +57,8 @@ const LoginPage = () => {
     console.log("donzo ");
     axios.get("http://localhost:3000/auth/logout");
 
+    // localhost:3000/review
+
     console.log("lgout done");
   };
   const signIn = () => {
