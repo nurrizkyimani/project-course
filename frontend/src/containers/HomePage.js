@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { history } from "history";
 
 const HomePage = () => {
   const [reviews, setReviews] = useState([]);
@@ -25,6 +26,12 @@ const HomePage = () => {
 
     fetchdata();
   }, []);
+
+  const clickDetail = (userId) => {
+    console.log(userId);
+    history.push(`/dashboard/${userId}`);
+  };
+
   console.log("reviews", reviews);
   return (
     <div className="flex w-full justify-around flex-wrap">
@@ -32,6 +39,7 @@ const HomePage = () => {
         <div
           className="container max-w-sm bg-white shadow-lg rounded-lg overflow-hidden my-4 px-4 py-5"
           key={rev._id}
+          onClick={(e) => clickDetail(rev._id)}
         >
           <p className="py-2 text-lg text-gray-700">
             {rev.course} {rev._id}
