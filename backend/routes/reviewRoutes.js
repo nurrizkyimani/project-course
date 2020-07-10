@@ -8,29 +8,61 @@ const { route } = require(".");
 const { remove } = require("../models/Review");
 const passport = require("passport");
 
-// SUBMIT REVIEW
-router.post("/submit", ensureAuth, async (req, res, next) => {
-  req.body.user = req.user.id;
+//get all review
+router.get(
+  "/",
+  // ensureAuth,
+  async (req, res) => {
+    try {
+      const reviews = await Review.find({ status: "public" })
+        .populate("student")
+        .sort({ createdAt: "desc" })
+        .lean();
 
-  try {
-    const result = await Review.create(req.body);
-    console.log(result);
-
-    if (!result) return res.status(400).send("User not Found");
-
-    res.send(result);
-  } catch (error) {
-    console.log(error);
+      res.status(200).json({
+        success: true,
+        data: reviews,
+      });
+    } catch (err) {
+      console.log(err);
+      res.json({
+        success: false,
+        info: `error info : ${err}`,
+      });
+    }
   }
-});
+);
+
+// SUBMIT REVIEW
+router.post(
+  "/submit",
+  // ensureAuth,
+  async (req, res, next) => {
+    req.body.user = req.user.id;
+
+    try {
+      const result = await Review.create(req.body);
+      console.log(result);
+
+      if (!result) return res.status(400).send("User not Found");
+
+      res.send(result);
+    } catch (err) {
+      console.log(err);
+      res.json({
+        success: false,
+        info: `error info : ${err}`,
+      });
+    }
+  }
+);
 
 // UPDATE REVIEW
 router.put("/:id", ensureAuth, async (req, res) => {
   let review = await Review.findById(req.params.id).lean();
-
   try {
     if (req.student.id != review.user) {
-      res.send("not the same id");
+      res.send("not the same user id");
     } else {
       review = await Review.findByIdAndUpdate(
         { _id: req.params.id },
@@ -41,8 +73,12 @@ router.put("/:id", ensureAuth, async (req, res) => {
         }
       );
     }
-  } catch (error) {
-    res.send(error);
+  } catch (err) {
+    console.log(err);
+    res.json({
+      success: false,
+      info: `error info : ${err}`,
+    });
   }
 });
 
@@ -57,14 +93,17 @@ router.delete(
         res.render("error", { error: "no review" });
       }
       Review.remove(review);
-    } catch (error) {
-      res.send(error);
-      console.log(error);
+    } catch (err) {
+      console.log(err);
+      res.json({
+        success: false,
+        info: `error info : ${err}`,
+      });
     }
   }
 );
 
-//get specific review
+//get specific review by id
 router.get(
   "/:id",
   //  ensureAuth,
@@ -74,45 +113,38 @@ router.get(
       res.send({ data: review });
     } catch (error) {
       console.error(err);
-      res.render("error/500");
+      res.json({
+        success: false,
+        info: `error info : ${err}`,
+      });
     }
   }
 );
 
-//get all review
+// get all reviews by specific user
 router.get(
-  "/reviews",
-  // ensureAuth,
-  async (req, res) => {
-    try {
-      const stories = await Review.find({ status: "public" })
-        .populate("Student")
-        .sort({ createdAt: "desc" })
-        .lean();
-      res.send({ data: stories });
-    } catch (error) {
-      res.send(error);
-    }
-  }
-);
-
-//get all reviews by specific user
-router.get(
-  "/user/:userId",
+  "/user/:userid",
   // ensureAuth,
   async (req, res) => {
     try {
       let review = await Review.find({
-        user: req.params.userId,
+        user: req.params.userid,
         status: "public",
       })
-        .populate("Student")
-        .lean(true);
+        .populate("student")
+        .sort({ createdAt: "desc" })
+        .lean();
 
-      res.send({ data: review });
-    } catch (error) {
+      res.send({
+        success: true,
+        data: review,
+      });
+    } catch (err) {
       console.error(err);
-      res.render("error/500");
+      res.json({
+        success: false,
+        info: `error info : ${err}`,
+      });
     }
   }
 );
