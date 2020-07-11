@@ -4,7 +4,7 @@ import { InputDash } from "../component/InputDash";
 import OptionDash from "../component/OptionDash";
 import axios from "axios";
 
-function DashboardPage() {
+function UpdatePage(props) {
   const { register, handleSubmit, watch, errors } = useForm();
 
   const onSubmit = async (data) => {
@@ -27,14 +27,7 @@ function DashboardPage() {
         "Content-Type": "application/json",
       },
     };
-    // axios
-    //   .post(url, config, {
-    //     realdata,
-    //   })
-    //   .then((res) => {
-    //     console.log(res);
-    //   });
-
+    
     fetch(url, {
       method: "POST",
       body: JSON.stringify(realdata),
@@ -128,7 +121,7 @@ function DashboardPage() {
   );
 }
 
-export default DashboardPage;
+export default UpdatePage;
 
 //user
 //course

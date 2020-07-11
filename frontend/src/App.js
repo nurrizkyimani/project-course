@@ -1,109 +1,93 @@
-import React, { useState, useContext, useEffect, createContext } from "react";
+import React, { useState, useContext, useEffect, createContext } from 'react';
 // import './App.css';
-import "./styles/tailwind.css";
-import Navbar from "./component/Navbar";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  Redirect,
-} from "react-router-dom";
-import LoginPage from "./containers/LoginPage";
-import HomePage from "./containers/HomePage";
-import DashboardPage from "./containers/DashboardPage";
-import axios from "axios";
-import Cookies from "js-cookie";
-import DasboardList from "./containers/DasboardList";
+import './styles/tailwind.css';
+import Navbar from './component/Navbar';
+import { BrowserRouter as Router, Switch, Route, Link, Redirect } from 'react-router-dom';
+import LoginPage from './containers/LoginPage';
+import HomePage from './containers/HomePage';
+import UpdatePage from './containers/UpdatePage';
+import axios from 'axios';
 
-function PrivateRoute({ children, ...rest }) {
-  const isAuth = useContext(AuthContext);
+import DasboardList from './containers/DasboardList';
 
-  return (
-    <Route
-      {...rest}
-      render={({ location }) =>
-        true ? (
-          children
-        ) : (
-          <Redirect
-            to={{
-              pathname: "/login",
-              state: { from: location },
-            }}
-          />
-        )
-      }
-    />
-  );
-}
 export const UserContext = React.createContext();
 export const AuthContext = React.createContext();
 
 function App() {
-  const [isAuth, setIsAuth] = useState(false);
-  const [user, setUser] = useState({});
-  const [error, setError] = useState(null);
+	const [ isAuth, setIsAuth ] = useState(false);
+	const [ user, setUser ] = useState({});
+	const [ error, setError ] = useState(null);
 
-  useEffect(() => {
-    console.log("trigger use context");
+	useEffect(() => {
+		console.log('trigger use context');
 
-    async function fetch() {
-      const response = await axios.get(
-        "http://localhost:3000/auth/login/success",
-        {
-          withCredentials: true,
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-          },
-        }
-      );
+		async function fetch() {
+			const response = await axios.get('http://localhost:3000/auth/login/success', {
+				withCredentials: true,
+				headers: {
+					'Access-Control-Allow-Origin': '*',
+					'Content-Type': 'application/json',
+					'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS'
+				}
+			});
 
-      if (response.data.success != false) {
-        setIsAuth(true);
-        setUser(response.data);
-      } else {
-        setError("Response Failed");
-      }
-      console.log(response);
-    }
+			if (response.data.success != false) {
+				setIsAuth(true);
+				setUser(response.data);
+			} else {
+				setError('Response Failed');
+			}
+			console.log(response);
+		}
 
-    fetch();
-  }, []);
+		fetch();
+	}, []);
 
-  return (
-    <UserContext.Provider value={user.user}>
-      <AuthContext.Provider value={isAuth}>
-        <Router>
-          <div className="App">
-            <Navbar />
-          </div>
+	return (
+		<UserContext.Provider value={user.user}>
+			<AuthContext.Provider value={isAuth}>
+				<Router>
+					<div className="App">
+						<Navbar />
+					</div>
 
           {/* the page that swithc */}
-          <Switch>
-            <Route path="/dashlist">
-              <DasboardList />
-            </Route>
-            <Route path="/dashboard">
-              <DashboardPage />
-            </Route>
-            <Route path="/login">
-              <LoginPage />
-            </Route>
-            <Route path="/">
-              <HomePage />
-            </Route>
+          
+          <Route
+              path="/dashboard/:id"
+              exact
+              component={UpdatePage}
+          />
+{/*           
+          <Route
+              exact
+              path="/dashboard/:id"
+              component={UpdatePage}
+          /> */}
+          
 
-            {/* <PrivateRoute path="/dashboard">
+					<Switch>
+						<Route path="/dashboard">
+							<DasboardList />
+            </Route>
+            
+            
+
+						<Route path="/login">
+							<LoginPage />
+						</Route>
+						<Route path="/">
+							<HomePage />
+						</Route>
+
+						{/* <PrivateRoute path="/dashboard">
             <DashboardPage />
           </PrivateRoute> */}
-          </Switch>
-        </Router>
-      </AuthContext.Provider>
-    </UserContext.Provider>
-  );
+					</Switch>
+				</Router>
+			</AuthContext.Provider>
+		</UserContext.Provider>
+	);
 }
 
 export default App;

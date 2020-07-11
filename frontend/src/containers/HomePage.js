@@ -12,25 +12,23 @@ const HomePage = () => {
         setLoading(true);
         const res = await axios.get("http://localhost:3000/review");
         // console.log(res.data.data);
-        if (res.data != null) {
-          setLoading(false);
-        }
+        
         if (res.data) {
           setReviews(res.data.data);
           // console.log(reviews);
         }
+
+        setLoading(false)
       } catch (error) {
         console.log(error);
+        setLoading(false)
       }
     };
 
     fetchdata();
   }, []);
 
-  const clickDetail = (userId) => {
-    console.log(userId);
-    history.push(`/dashboard/${userId}`);
-  };
+  
 
   console.log("reviews", reviews);
   return (
@@ -39,7 +37,7 @@ const HomePage = () => {
         <div
           className="container max-w-sm bg-white shadow-lg rounded-lg overflow-hidden my-4 px-4 py-5"
           key={rev._id}
-          onClick={(e) => clickDetail(rev._id)}
+          
         >
           <p className="py-2 text-lg text-gray-700">
             {rev.course} {rev._id}
