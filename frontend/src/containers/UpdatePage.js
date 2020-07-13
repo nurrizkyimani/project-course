@@ -3,46 +3,37 @@ import { useForm } from "react-hook-form";
 import { InputDash } from "../component/InputDash";
 import OptionDash from "../component/OptionDash";
 import axios from "axios";
+import { useLocation, useParams } from "react-router-dom";
+import { useEffect } from "react";
 
 function UpdatePage(props) {
-  const { register, handleSubmit, watch, errors } = useForm();
+  const location = useLocation();
+  const { id } = useParams()
+  const [urlSubmit, setUrlSubmit] = useState(`http://localhost:3000/review/submit`);
+  const [restMethod, setRestMethod] = useState("POST");
 
-  const onSubmit = async (data) => {
-    const realdata = {
-      course: data.course,
-      major: data.major,
-      semester: data.semester,
-      year: data.year,
-      instructor: data.instructor,
-      ratings: data.ratings,
-      review: data.review,
-      status: data.status,
-      tags: data.tags,
-    };
-    const url = "http://localhost:3000/review/submit";
-    console.log(data);
-    const config = {
-      withCredentials: true,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-    
-    fetch(url, {
-      method: "POST",
-      body: JSON.stringify(realdata),
-      headers: { "Content-Type": "application/json" },
-      mode: "cors",
-      credentials: "include",
-    })
-      .then((res) => {
-        console.log("ini result");
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  console.log(location);
+
+  const preloaded = {
+    course: location.state.params.course,
+    instructor: location.state.params.instructor,
+    major: location.state.params.major,
+    year: location.state.params.year,
+    status: location.state.params.status,
+    ratings: location.state.params.ratigs,
+    review: location.state.params.review,
+    tags: location.state.params.tags
+
+  }
+
+
+    useEffect(() => {
+      console.log('location exist');
+      if (location.state.isUpdate) {
+        setUrlSubmit(`http://localhost:3000/review/${id}`)
+        setRestMethod("PUT")
+      }
+    },[location])
 
   const options = [
     { key: "semester_1", value: "Semester 1" },
@@ -68,9 +59,44 @@ function UpdatePage(props) {
     { key: 5, value: 5 },
   ];
 
+  const { register, handleSubmit, watch, errors } = useForm({defaultValues: preloaded});
+
+
+  const onSubmit = async (data) => {
+    const realdata = {
+      course: data.course,
+      major: data.major,
+      semester: data.semester,
+      year: data.year,
+      instructor: data.instructor,
+      ratings: data.ratings,
+      review: data.review,
+      status: data.status,
+      tags: data.tags,
+    };
+
+    fetch(urlSubmit, {
+      method: restMethod,
+      body: JSON.stringify(realdata),
+      headers: { "Content-Type": "application/json" },
+      mode: "cors",
+      credentials: "include",
+    })
+      .then((res) => {
+        console.log("ini result");
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+
+
   return (
     <div className="flex justify-center h-screen flex-col">
       <div className=" container mx-auto w-full max-w-4xl m-auto">
+        
         <form
           onSubmit={handleSubmit(onSubmit)}
           className=" flex flex-col justify-center bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 "
@@ -89,9 +115,17 @@ function UpdatePage(props) {
             referprop={register({ required: true })}
           />
 
-          <InputDash label="course" nameprop="course" referprop={register} />
+          <InputDash
+            label="course"
+            nameprop="course"
+            referprop={register}
+          />
 
-          <InputDash label="year" nameprop="year" referprop={register} />
+          <InputDash
+            label="year"
+            nameprop="year"
+            referprop={register}
+          />
 
           <InputDash
             label="instructor"
@@ -99,7 +133,11 @@ function UpdatePage(props) {
             referprop={register}
           />
 
-          <InputDash label="Major" nameprop="major" referprop={register} />
+          <InputDash
+            label="Major"
+            nameprop="major"
+            referprop={register}
+          />
 
           <OptionDash
             listoptions={ratings}
@@ -108,9 +146,17 @@ function UpdatePage(props) {
             referprop={register({ required: true })}
           />
 
-          <InputDash label="review" nameprop="review" referprop={register} />
+          <InputDash
+            label="review"
+            nameprop="review"
+            referprop={register}
+          />
 
-          <InputDash label="tags" nameprop="tags" referprop={register} />
+          <InputDash
+            label="tags"
+            nameprop="tags"
+            referprop={register}
+          />
 
           {errors.exampleRequired && <span>This field is required</span>}
 

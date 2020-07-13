@@ -35,9 +35,16 @@ const DasboardList = () => {
     fetchdata();
   }, [user]);
 
-  const clickDetail = (userId) => {
+  const clickDetail = (userId, revData) => {
     console.log(userId);
-    history.push(`/dashboard/${userId}`);
+    history.push(
+      `/dashboard/${userId}`,
+      {
+        params: revData,
+        isUpdate: true
+      }  
+    
+    );
   };
 
   console.log("reviews", reviews);
@@ -48,16 +55,19 @@ const DasboardList = () => {
         <div
           className="container max-w-sm bg-white shadow-lg rounded-lg overflow-hidden my-4 px-4 py-5"
           key={rev._id}
-          onClick={(e) => clickDetail(rev._id)}
+          onClick={(e) => clickDetail(rev._id, rev)}
         >
           <p className="py-2 text-lg text-gray-700">
-            {rev.course} ini id course kae {rev._id}
+            {rev.course}
+            <br/>
+            "ini id course kae" 
+            {rev._id}
           </p>
 
           <div className="flex items-center mt-4 text-gray">
             <h1 className="text-md">Instructor : </h1>
             <h3 className="text-gray-600">{rev.instructor}</h3>
-            {rev.user}
+        
           </div>
           <div>
             <h1 className="text-md">Faculty</h1>

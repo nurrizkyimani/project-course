@@ -66,26 +66,28 @@ router.post(
 router.put(
   "/:id",
   // ensureAuth,
+
   async (req, res) => {
-    let review = await Review.findById(req.params.id).lean();
     try {
-      if (req.student.id != review.user) {
-        res.send("not the same user id");
-      } else {
-        review = await Review.findByIdAndUpdate(
-          { _id: req.params.id },
-          req.body,
-          {
-            new: true,
-            runValidators: true,
-          }
-        );
+      const paramsId = req.params.id
+      let review = await Review.findById(req.params.id).lean();
+      if (req.user.id != review.user) {
+        console.log('not the same id');
+        return;
       }
-      res.status(200).json({
-        success: true,
-        info: "success update review",
-        data: req.body,
-      });
+      review = await Review.findByIdAndUpdate(
+        { _id: paramsId },
+        req.body,
+        {
+          new: true,
+          runValidators: true,
+        }
+      );
+      if (!review) return res.status(400).send("User not Found");
+      console.log('ini new reivew', review);
+      console.log('success');
+      // res.json('success')
+      
     } catch (err) {
       console.log(err);
       res.json({

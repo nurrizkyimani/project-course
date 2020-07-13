@@ -51,27 +51,13 @@ function App() {
 						<Navbar />
 					</div>
 
-          {/* the page that swithc */}
-          
-          <Route
-              path="/dashboard/:id"
-              exact
-              component={UpdatePage}
-          />
-{/*           
-          <Route
-              exact
-              path="/dashboard/:id"
-              component={UpdatePage}
-          /> */}
-          
-
 					<Switch>
+						<Route path="/dashboard/:id" exact >
+							<UpdatePage/>
+						</Route>
 						<Route path="/dashboard">
 							<DasboardList />
-            </Route>
-            
-            
+						</Route>
 
 						<Route path="/login">
 							<LoginPage />
