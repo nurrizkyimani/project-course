@@ -27,10 +27,9 @@ const HomePage = () => {
 
     fetchdata();
   }, []);
-
   
+  // console.log("reviews", reviews);
 
-  console.log("reviews", reviews);
   return (
     <div className="flex w-full justify-around flex-wrap">
       {reviews.map((rev) => (

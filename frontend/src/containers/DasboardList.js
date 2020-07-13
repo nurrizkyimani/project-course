@@ -14,11 +14,11 @@ const DasboardList = () => {
 
   useEffect(() => {
     const fetchdata = async (req) => {
-      console.log(user);
+      // console.log(user);
       try {
         const url = `http://localhost:3000/review/user/${user._id}`;
         setLoading(true);
-        console.log(url);
+        // console.log(url);
         const res = await axios.get(url);
         // console.log(res.data.data);
         if (res.data != null) {
@@ -36,7 +36,7 @@ const DasboardList = () => {
   }, [user]);
 
   const clickDetail = (userId, revData) => {
-    console.log(userId);
+    // console.log(userId);
     history.push(
       `/dashboard/${userId}`,
       {

@@ -86,14 +86,15 @@ router.put(
       if (!review) return res.status(400).send("User not Found");
       console.log('ini new reivew', review);
       console.log('success');
-      // res.json('success')
+      // return res.json('success')
       
     } catch (err) {
-      console.log(err);
-      res.json({
-        success: false,
-        info: `error info : ${err}`,
-      });
+      console.log('error: is ', err);
+      
+      // res.json({
+      //   success: false,
+      //   info: `error info : ${err}`,
+      // });
     }
   }
 );
@@ -114,6 +115,7 @@ router.delete(
         success: true,
         info: "success delete review",
       });
+      
     } catch (err) {
       console.log(err);
       res.json({
