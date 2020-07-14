@@ -11,11 +11,12 @@ function UpdatePage(props) {
   const { id } = useParams()
   const [urlSubmit, setUrlSubmit] = useState(`http://localhost:3000/review/submit`);
   const [restMethod, setRestMethod] = useState("POST");
+  const [submitValue, setSubmitValue] = useState("");
 
   const data = () => {
     if (location.state != undefined) {
       return {
-        course: location.state.params.instructor ,
+        course: location.state.params.course ,
         instructor: location.state.params.instructor || "",
         major: location.state.params.major || "",
         year: location.state.params.year || null, 
@@ -40,12 +41,14 @@ function UpdatePage(props) {
     useEffect(() => {
       console.log('location exist');
       if (location.state == undefined) {
-          setUrlSubmit(`http://localhost:3000/review/submit`)
-          setRestMethod("POST")
+        setUrlSubmit(`http://localhost:3000/review/submit`)
+        setRestMethod("POST")
+        setSubmitValue("Submit")
       } else {
         if (location.state.isUpdate) {
           setUrlSubmit(`http://localhost:3000/review/${id}`)
           setRestMethod("PUT")
+          setSubmitValue("Update")
         }
       }
       
@@ -110,12 +113,12 @@ function UpdatePage(props) {
 
 
   return (
-    <div className="flex justify-center h-screen flex-col">
-      <div className=" container mx-auto w-full max-w-4xl m-auto">
+    <div className="flex justify-center h-screen flex-col bg-gray-200">
+      <div className=" container mx-auto w-full max-w-3xl m-auto">
         
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className=" flex flex-col justify-center bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+          className=" flex flex-col justify-center bg-white shadow-md rounded-lg px-8 pt-6 pb-8 mb-4"
         >
           <OptionDash
             listoptions={statuses}
@@ -176,7 +179,15 @@ function UpdatePage(props) {
 
           {errors.exampleRequired && <span>This field is required</span>}
 
-          <input type="submit" />
+          <div className="flex items-center justify-between pt-2">
+            <input type="text" />
+            <input className='p-2 px-4 rounded-lg text-lg hover:bg-gray-400 text-gray-800'
+              type="submit"
+              value={submitValue}
+            />
+            
+          </div>
+
         </form>
       </div>
     </div>

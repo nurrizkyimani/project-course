@@ -48,10 +48,10 @@ function App() {
 				<Router>
 					<div className="App">
 						<Navbar />
-					</div>
+					
 
 					<Switch>
-						<Route path="/dashboard/:id" state={'test'} exact >
+						<Route path="/dashboard/:id"  exact >
 							<UpdatePage/>
 						</Route>
 						<Route path="/dashboard/add" exact >
@@ -70,7 +70,8 @@ function App() {
 						{/* <PrivateRoute path="/dashboard">
             <DashboardPage />
           </PrivateRoute> */}
-					</Switch>
+						</Switch>
+					</div>
 				</Router>
 			</AuthContext.Provider>
 		</UserContext.Provider>

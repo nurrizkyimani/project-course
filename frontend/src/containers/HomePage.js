@@ -31,42 +31,55 @@ const HomePage = () => {
   // console.log("reviews", reviews);
 
   return (
-    <div className="flex w-full justify-around flex-wrap">
+    <div className="flex w-full justify-around flex-wrap bg-gray-100">
       {reviews.map((rev) => (
         <div
-          className="container max-w-sm bg-white shadow-lg rounded-lg overflow-hidden my-4 px-4 py-5"
+          className="container max-w-sm bg-white shadow-lg rounded-lg overflow-hidden my-5 px-6 py-5"
           key={rev._id}
           
         >
-          <p className="py-2 text-lg text-gray-700">
-            {rev.course} {rev._id}
-          </p>
+          <h1 className=" text-2xl font-bold text-gray-700 border-b  pb-2 border-gray-300">
+            {rev.course}
+          </h1>
 
-          <div className="flex items-center mt-4 text-gray">
-            <h1 className="text-md">Instructor : </h1>
-            <h3 className="text-gray-600">{rev.instructor}</h3>
+          <div className="items-center mt-4 text-gray">
+            <h1 className="text-md">Id</h1>
+            <h3 className="text-gray-600 ml-3">{rev._id}</h3>
+        
+          </div>
+
+          <div className="items-center mt-4 text-gray">
+            <h1 className="text-md">Instructor</h1>
+            <h3 className="text-gray-600 ml-3">{rev.instructor}</h3>
+        
           </div>
           <div>
-            <h1 className="text-md">Faculty</h1>
-            <h3 className="text-gray-600">{rev.ratings}</h3>
+            <h1 className="text-md ">Faculty</h1>
+            <h3 className="text-gray-600 ml-4 text-sm">{rev.major}</h3>
           </div>
 
           <div>
             <h1 className="text-md">Semester</h1>
-            <h3 className="text-gray-600">{rev.semester}</h3>
+            <h3 className="text-gray-600 ml-4 text-sm">{rev.semester}</h3>
           </div>
           <div>
             <h1 className="text-md">Year</h1>
-            <h3 className="text-gray-600">{rev.year}</h3>
+            <h3 className="text-gray-600 ml-4">{rev.year}</h3>
           </div>
 
           <div>
             <h1 className="text-md">Rating</h1>
-            <h3 className="text-gray-600">{rev.ratings}</h3>
+            <h3 className="text-gray-600  text-sm ml-4">{rev.ratings}</h3>
           </div>
           <div>
             <h5 className="text-md">Comment</h5>
             <p className="text-gray-600 text-sm">{rev.review}</p>
+          </div>
+
+          <div class=" py-4">
+            {rev.tags.map(tag => (
+              <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">{tag}</span>
+            ))}
           </div>
         </div>
       ))}
