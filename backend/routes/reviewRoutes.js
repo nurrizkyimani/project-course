@@ -43,15 +43,16 @@ router.post(
 
     try {
       const result = await Review.create(req.body);
-      console.log(result);
+      console.log('result created', result);
 
       if (!result) return res.status(400).send("User not Found");
 
-      res.status(200).json({
-        success: true,
-        info: "success submit review",
-        data: req.body,
-      });
+      // res.status(200).json({
+      //   success: true,
+      //   info: "success submit review",
+      //   data: req.body,
+      // });
+
     } catch (err) {
       console.log(err);
       res.json({

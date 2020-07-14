@@ -12,27 +12,43 @@ function UpdatePage(props) {
   const [urlSubmit, setUrlSubmit] = useState(`http://localhost:3000/review/submit`);
   const [restMethod, setRestMethod] = useState("POST");
 
-  console.log(location);
-
-  const preloaded = {
-    course: location.state.params.course,
-    instructor: location.state.params.instructor,
-    major: location.state.params.major,
-    year: location.state.params.year,
-    status: location.state.params.status,
-    ratings: location.state.params.ratigs,
-    review: location.state.params.review,
-    tags: location.state.params.tags
-
+  const data = () => {
+    if (location.state != undefined) {
+      return {
+        course: location.state.params.instructor ,
+        instructor: location.state.params.instructor || "",
+        major: location.state.params.major || "",
+        year: location.state.params.year || null, 
+        status: location.state.params.status || 'private' ,
+        ratings: location.state.params.ratings || 4,
+        review: location.state.params.review || "",
+        tags: location.state.params.tags || []
+      }
+    } else {
+      return {}
+    }
   }
 
+  // console.log('data is ' , data());
+
+  // console.log(location);
+  
+  // console.log('preloded', preloaded);
+
+  // console.log('set', urlSubmit, restMethod);
 
     useEffect(() => {
       console.log('location exist');
-      if (location.state.isUpdate) {
-        setUrlSubmit(`http://localhost:3000/review/${id}`)
-        setRestMethod("PUT")
+      if (location.state == undefined) {
+          setUrlSubmit(`http://localhost:3000/review/submit`)
+          setRestMethod("POST")
+      } else {
+        if (location.state.isUpdate) {
+          setUrlSubmit(`http://localhost:3000/review/${id}`)
+          setRestMethod("PUT")
+        }
       }
+      
     },[location])
 
   const options = [
@@ -59,7 +75,7 @@ function UpdatePage(props) {
     { key: 5, value: 5 },
   ];
 
-  const { register, handleSubmit, watch, errors } = useForm({defaultValues: preloaded});
+  const { register, handleSubmit, watch, errors } = useForm({ defaultValues: data() });
 
 
   const onSubmit = async (data) => {

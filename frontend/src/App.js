@@ -39,7 +39,6 @@ function App() {
 			}
 			console.log(response);
 		}
-
 		fetch();
 	}, []);
 
@@ -52,13 +51,15 @@ function App() {
 					</div>
 
 					<Switch>
-						<Route path="/dashboard/:id" exact >
+						<Route path="/dashboard/:id" state={'test'} exact >
+							<UpdatePage/>
+						</Route>
+						<Route path="/dashboard/add" exact >
 							<UpdatePage/>
 						</Route>
 						<Route path="/dashboard">
 							<DasboardList />
 						</Route>
-
 						<Route path="/login">
 							<LoginPage />
 						</Route>
