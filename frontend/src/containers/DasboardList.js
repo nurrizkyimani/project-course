@@ -48,7 +48,8 @@ const DasboardList = () => {
 
 	console.log('reviews', reviews);
 
-	return (
+  return (
+    
 		<div className="flex flex-col items-center bg-gray-100">
 			<h1 className="text-4xl text-gray-800 py-5">Dashboard</h1>
 			<div className="flex w-full justify-around flex-wrap bg-gray-100">
