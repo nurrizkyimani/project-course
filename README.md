@@ -1,6 +1,10 @@
 # A web to rate UGM course 
+
 A web for ugm student to rate their course and classes. A project for learning about backend and authentication using node.js
-<img src="https://github.com/nurrizkyimani/project-course/blob/master/demo.png">
+
+<p align="center">
+ <img src="https://github.com/nurrizkyimani/project-course/blob/master/demo.png">
+</p>
 
 # Stack
 Backend : 
